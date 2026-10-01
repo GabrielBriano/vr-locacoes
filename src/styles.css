@@ -66,3 +66,4 @@ input:focus,textarea:focus{border-color:var(--pink);outline:0}
 @media(max-width:720px){.top nav{display:none}.awning span{flex-basis:44px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .logo img{height:52px;width:52px;display:block}
+:root{color-scheme:only light}
