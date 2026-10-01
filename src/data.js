@@ -7,6 +7,7 @@ export const ITEMS = [
  {id:'algodao',cat:'Máquinas',emoji:'🍭',name:'Máquina de algodão-doce',desc:'Algodão-doce girando na frente dos convidados. Açúcar colorido opcional.',price:'R$ 150'},
  {id:'cama',cat:'Brinquedos',emoji:'🤸',name:'Cama elástica',desc:'Pula-pula com rede de proteção para a criançada gastar energia.',price:'R$ 200'},
  {id:'piscina',cat:'Brinquedos',emoji:'🎈',name:'Piscina de bolinhas',desc:'Piscina com 1.500 bolinhas coloridas, higienizadas a cada festa.',price:'R$ 120'},
+ {id:'rechaud',cat:'Buffet',emoji:'🍲',name:'Rechaud redondo',desc:'Rechaud redondo em inox para manter a comida quentinha durante toda a festa.',price:'R$ 25'},
  {id:'combo1',cat:'Combos',emoji:'🎉',name:'Combo Festa',desc:'Pipoqueira + algodão-doce, o par que nunca falha em aniversário.',price:'R$ 260'},
  {id:'combo2',cat:'Combos',emoji:'🌈',name:'Combo Festão',desc:'Pipoqueira + algodão-doce + piscina de bolinhas + cama elástica.',price:'R$ 520'}
 ]
