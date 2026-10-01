@@ -68,3 +68,4 @@ input:focus,textarea:focus{border-color:var(--pink);outline:0}
 .logo img{height:52px;width:52px;display:block}
 :root{color-scheme:only light}
 html{background:#fffdfe;color-scheme:only light}
+.btn:disabled{opacity:.6;cursor:wait}

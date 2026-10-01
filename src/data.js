@@ -1,15 +1,19 @@
 // ✏️ EDITE AQUI: nome, WhatsApp (DDI+DDD+número, só dígitos), itens e preços
 export const BRAND = 'VR Locações'
 export const WHATSAPP = '5519998376525'
+export const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjY3ZTJjZmJhNWFlYTQyMmViNTA2MmFhZjNjYzNlZmU0IiwiaCI6Im11cm11cjY0In0='
+export const ORIGEM = 'Av. das Amoreiras, 6519 - Jardim Paraiso de Viracopos, Campinas - SP' 
+export const PRECO_KM = 2
 export const CATS = ['Todos','Máquinas','Brinquedos','Combos']
 export const ITEMS = [
- {id:'pipoqueira',cat:'Máquinas',emoji:'🍿',name:'Pipoqueira',desc:'Pipoca quentinha na hora, com carrinho vermelho clássico. Rende cerca de 100 saquinhos.',price:'R$ 150'},
- {id:'algodao',cat:'Máquinas',emoji:'🍭',name:'Máquina de algodão-doce',desc:'Algodão-doce girando na frente dos convidados. Açúcar colorido opcional.',price:'R$ 150'},
+ {id:'pipoqueira',cat:'Máquinas',emoji:'🍿',name:'Pipoqueira',desc:'Pipoca quentinha na hora. Rende cerca de 100 saquinhos.',price:'R$ 140'},
+ {id:'algodao',cat:'Máquinas',emoji:'🍭',name:'Máquina de algodão-doce',desc:'Algodão-doce girando na frente dos convidados. Açúcar colorido opcional.',price:'R$ 110'},
  {id:'cama',cat:'Brinquedos',emoji:'🤸',name:'Cama elástica',desc:'Pula-pula com rede de proteção para a criançada gastar energia.',price:'R$ 200'},
- {id:'piscina',cat:'Brinquedos',emoji:'🎈',name:'Piscina de bolinhas',desc:'Piscina com 1.500 bolinhas coloridas, higienizadas a cada festa.',price:'R$ 120'},
- {id:'rechaud',cat:'Buffet',emoji:'🍲',name:'Rechaud redondo',desc:'Rechaud redondo em inox para manter a comida quentinha durante toda a festa.',price:'R$ 25'},
- {id:'combo1',cat:'Combos',emoji:'🎉',name:'Combo Festa',desc:'Pipoqueira + algodão-doce, o par que nunca falha em aniversário.',price:'R$ 260'},
- {id:'combo2',cat:'Combos',emoji:'🌈',name:'Combo Festão',desc:'Pipoqueira + algodão-doce + piscina de bolinhas + cama elástica.',price:'R$ 520'}
+ {id:'piscina',cat:'Brinquedos',emoji:'🎈',name:'Piscina de bolinhas',desc:'Piscina com 1.500 bolinhas coloridas, higienizadas a cada festa.',price:'R$ 190'},
+ {id:'rechaud',cat:'Buffet',emoji:'🍲',name:'Rechaud redondo',desc:'Rechaud redondo em inox para manter a comida quentinha durante toda a festa.',price:'R$ 50'},
+ {id:'combo1',cat:'Combos',emoji:'🎉',name:'Combo Festa',desc:'Pipoqueira + algodão-doce, o par que nunca falha em aniversário.',price:'R$ 210'},
+ {id:'combo1',cat:'Combos',emoji:'🌈',name:'Combo Brincadeira',desc:'Pula-pula + Piscina de bolinhas, o par que garante a diversão.',price:'R$ 350'},
+ {id:'combo2',cat:'Combos',emoji:'🎊',name:'Combo Festão',desc:'Pipoqueira + algodão-doce + piscina de bolinhas + cama elástica.',price:'R$ 500'}
 ]
 export const STEPS = [
  ['Escolha','Marque o que você quer alugar e a quantidade.'],

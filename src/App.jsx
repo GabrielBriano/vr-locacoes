@@ -1,28 +1,60 @@
 import {useState,useMemo,useEffect} from 'react'
 import {BRAND,WHATSAPP,CATS,ITEMS,STEPS,FAQ} from './data.js'
+import {calcularFrete,buscarCep} from './frete.js'
 
 const Awning=()=>(<div className="awning" aria-hidden="true">{Array.from({length:48}).map((_,i)=><span key={i} className={i%2?'w':'p'}/>)}</div>)
 const kernels=Array.from({length:16}).map((_,i)=>({l:(i*37)%100,d:(i*0.7)%6,s:14+(i*5)%18,e:i%3?'🍿':'✨'}))
+const brl=v=>'R$ '+v.toFixed(2).replace('.',',')
 
 export default function App(){
  const [cat,setCat]=useState('Todos')
  const [cart,setCart]=useState({})
  const [open,setOpen]=useState(false)
- const [f,setF]=useState({nome:'',data:'',local:'',obs:''})
+ const [f,setF]=useState({nome:'',data:'',cep:'',num:'',obs:''})
+ const [end,setEnd]=useState(null)
+ const [fr,setFr]=useState(null)
+ const [frSt,setFrSt]=useState('')
  const list=useMemo(()=>ITEMS.filter(i=>cat==='Todos'||i.cat===cat),[cat])
  const sel=ITEMS.filter(i=>cart[i.id])
  const total=Object.values(cart).reduce((a,b)=>a+b,0)
  const add=(id,n=1)=>setCart(c=>{const q=(c[id]||0)+n;const x={...c};q<=0?delete x[id]:x[id]=q;return x})
+
+ // 1) CEP completo -> busca rua, bairro e cidade
+ useEffect(()=>{
+  const c=f.cep.replace(/\D/g,'')
+  setEnd(null);setFr(null);setFrSt('')
+  if(c.length!==8)return
+  let vivo=true;setFrSt('carregando')
+  buscarCep(c).then(e=>vivo&&setEnd(e)).catch(()=>vivo&&setFrSt('cep'))
+  return()=>{vivo=false}
+ },[f.cep])
+
+ // 2) endereço + número -> calcula o frete
+ useEffect(()=>{
+  setFr(null)
+  if(!end||!f.num.trim()){if(end)setFrSt('');return}
+  setFrSt('carregando');let vivo=true
+  const id=setTimeout(async()=>{
+   try{const r=await calcularFrete(end,f.num.trim());if(vivo){setFr(r);setFrSt('')}}
+   catch{if(vivo)setFrSt('erro')}
+  },700)
+  return()=>{vivo=false;clearTimeout(id)}
+ },[end,f.num])
+
  useEffect(()=>{document.body.style.overflow=open?'hidden':''},[open])
+
  const send=()=>{
-  const dataBR = f.data ? f.data.split('-').reverse().join('/') : '-'
+  const dataBR=f.data?f.data.split('-').reverse().join('/'):'-'
   const linhas=sel.map(i=>`• ${cart[i.id]}x ${i.name}`).join('\n')
-  const msg=`Olá! Vim pelo site da ${BRAND} e quero um orçamento de locação:\n\n${linhas||'(ainda vou escolher os itens)'}\n\nNome: ${f.nome||'-'}\nData da festa: ${dataBR}\nLocal/bairro: ${f.local||'-'}${f.obs?`\nObs.: ${f.obs}`:''}`
+  const frete=fr?`${brl(fr.valor)} (${fr.km} km)`:'a combinar'
+  const endTxt=end?`${end.rua}, ${f.num||'s/n'} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP ${f.cep})`:'-'
+  const msg=`Olá! Vim pelo site da ${BRAND} e quero um orçamento de locação:\n\n${linhas||'(ainda vou escolher os itens)'}\n\nNome: ${f.nome||'-'}\nData da festa: ${dataBR}\nEndereço da festa: ${endTxt}\nFrete estimado: ${frete}${f.obs?`\nObs.: ${f.obs}`:''}`
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,'_blank','noopener')
  }
+
  const set=k=>e=>setF({...f,[k]:e.target.value})
  return(<>
- <header className="top"><a className="logo" href="#topo"><img src="/logo.png" alt={BRAND} /></a>
+ <header className="top"><a className="logo" href="#topo"><img src="/logo.png" alt={BRAND}/></a>
   <nav><a href="#catalogo">Catálogo</a><a href="#como">Como funciona</a><a href="#duvidas">Dúvidas</a></nav>
   <button className="bag" onClick={()=>setOpen(true)} aria-label="Abrir meu pedido">Meu pedido{total>0&&<b>{total}</b>}</button></header>
 
@@ -61,7 +93,13 @@ export default function App(){
    sel.map(i=><div className="li" key={i.id}><span>{i.emoji} {i.name}</span><div className="qty"><button onClick={()=>add(i.id,-1)}>−</button><span>{cart[i.id]}</span><button onClick={()=>add(i.id)}>+</button></div></div>)}
    <label>Seu nome<input value={f.nome} onChange={set('nome')} autoComplete="name"/></label>
    <label>Data da festa<input type="date" value={f.data} onChange={set('data')}/></label>
-   <label>Bairro / cidade<input value={f.local} onChange={set('local')}/></label>
+   <label>CEP da festa<input value={f.cep} onChange={set('cep')} inputMode="numeric" maxLength="9" placeholder="00000-000" autoComplete="postal-code"/></label>
+   {end&&<p className="empty">{end.rua&&end.rua+', '}{end.bairro&&end.bairro+' - '}{end.cidade}/{end.uf}</p>}
+   {end&&<label>Número e complemento<input value={f.num} onChange={set('num')}/></label>}
+   {frSt==='carregando'&&<p className="empty">Calculando...</p>}
+   {fr&&<p className="empty">Frete estimado: <b>{brl(fr.valor)}</b> ({fr.km} km)<br/></p>}
+   {frSt==='cep'&&<p className="empty">CEP não encontrado. Confira os números.</p>}
+   {frSt==='erro'&&<p className="empty">Não consegui calcular. Confira o número ou combine o frete pelo WhatsApp.</p>}
    <label>Observações<textarea rows="2" value={f.obs} onChange={set('obs')}/></label></div>
-  <div className="df"><button className="btn wa" onClick={send}>Enviar pelo WhatsApp</button><small>O valor final é combinado na conversa.</small></div></aside>
+  <div className="df"><button className="btn wa" onClick={send} disabled={frSt==='carregando'}>Enviar pelo WhatsApp</button><small>O valor final é combinado na conversa.</small></div></aside>
  </>)}
