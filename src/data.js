@@ -1,6 +1,6 @@
 // ✏️ EDITE AQUI: nome, WhatsApp (DDI+DDD+número, só dígitos), itens e preços
 export const BRAND = 'VR Locações'
-export const WHATSAPP = '5519996408226'
+export const WHATSAPP = '5519998376525'
 export const CATS = ['Todos','Máquinas','Brinquedos','Combos']
 export const ITEMS = [
  {id:'pipoqueira',cat:'Máquinas',emoji:'🍿',name:'Pipoqueira',desc:'Pipoca quentinha na hora, com carrinho vermelho clássico. Rende cerca de 100 saquinhos.',price:'R$ 150'},
